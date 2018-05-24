@@ -1,0 +1,7 @@
+argparse
+configparser
+requests
+datetime
+exchangelib
+bpython
+json

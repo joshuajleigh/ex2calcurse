@@ -1,0 +1,5 @@
+[ex2calcurse]
+username=username@domain.tld
+password=supersecrectpassword
+directory=wherever-you-want-calcurse-stored
+owa=your-outlook-endpoint, ex outlook.office365.com/ews/exchange.asmx
