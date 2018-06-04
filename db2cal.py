@@ -8,17 +8,26 @@ import os
 
 
 def load_db(DBFILE):
+    """
+    takes the json DB file and converts to a python dict
+    """
 #    DBFILE=DIR + ".calcurse/db_file"
     with open(DBFILE) as f:
        DB_JSON_DATA=json.load(f)
     return DB_JSON_DATA
 
 def string_to_timeobject(time_string):
+    """
+    transforms python strings in dict to time objects
+    """
     tz_unaware_time = datetime.datetime.strptime(time_string[0:19], '%Y-%m-%d %H:%M:%S')
     time=tz_unaware_time.replace(tzinfo=pytz.utc)
     return time
 
 def localize_time(time_obj):
+    """
+    takes UTC time object and changes them to local time
+    """
     local_tz = datetime.datetime.now(datetime.timezone.utc).astimezone().tzinfo
     local_time=time_obj.astimezone(tz=local_tz)
     return local_time
@@ -35,7 +44,11 @@ def translate_time(time_string):
     time_string=get_time_of_day(local_time)
     return time_string
 
-def db_to_calcurse_calendar(DBFILE):
+def db_to_calcurse_calendar(DBFILE, APTFILE):
+    """
+    takes timeobjects and strings and writes them
+    out into the format that calcurse expects
+    """
     full_calendar=""
     full_notes = {}
     h = hashlib.sha1()
@@ -49,10 +62,15 @@ def db_to_calcurse_calendar(DBFILE):
         sub=item['info']['subject'],
         location=item['info']['location'])
 #    print(full_calendar)
-    with open(".calcurse/test_appt", "w+") as f:
+    with open(APTFILE, "w+") as f:
         f.write(full_calendar)
 
 def db_to_calcurse_notes(NOTESDIR, DBFILE):
+    """
+    takes contents of calendar event text/notes and
+    writes them in files named for the hash of thier
+    contents; as this is what calcurse expects
+    """
     DB_JSON=load_db(DBFILE)
     for item in DB_JSON:
         notehash=item['info']['notes']
@@ -60,10 +78,14 @@ def db_to_calcurse_notes(NOTESDIR, DBFILE):
         with open(str(NOTESDIR + notehash), "w+") as f:
             f.write(text_body)
 
+
 def main():
     DBFILE=os.environ['DBFILE']
     NOTESDIR=os.environ['NOTESDIR']
-    db_to_calcurse_calendar(DBFILE)
+    APTFILE=os.environ['APTFILE']
+#    print("DBFILE= " + DBFILE + " NOTESDIR= " + NOTESDIR)
+    APT_FILE=os.environ['NOTESDIR']
+    db_to_calcurse_calendar(DBFILE, APTFILE)
     db_to_calcurse_notes(NOTESDIR, DBFILE)
     print("db -> calcurse " + str(datetime.datetime.now()))
 

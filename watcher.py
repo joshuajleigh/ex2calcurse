@@ -111,9 +111,10 @@ def ex2db(username, password, owa, before, future, directory):
 #    print("subprocess.call([{PYTHON}, {EX2DB}], env={ENV})".format(PYTHON=PYTHON, EX2DB=EX2DB, ENV=ENV))
     subprocess.call([PYTHON, EX2DB], env=ENV)
 
-def db2cal(DBFILE, NOTESDIR):
+def db2cal(DBFILE, APTFILE, NOTESDIR):
     ENV={
         'DBFILE': DBFILE,
+        'APTFILE': APTFILE,
         'NOTESDIR': NOTESDIR
         }
     PYTHON=str(WORKING_DIR + "/env/bin/python")
@@ -135,7 +136,8 @@ def main():
         str(VALUES['directory']))
     db2cal(
         str(VALUES['directory'] + ".calcurse/db_file"),
-        str(VALUES['directory'] + ".calcurse/notes")
+        str(VALUES['directory'] + ".calcurse/apts"),
+        str(VALUES['directory'] + ".calcurse/notes/")
         )
 
 main()
