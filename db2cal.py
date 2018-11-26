@@ -62,8 +62,17 @@ def db_to_calcurse_calendar(DBFILE, APTFILE):
         sub=item['info']['subject'],
         location=item['info']['location'])
 #    print(full_calendar)
-    with open(APTFILE, "w+") as f:
-        f.write(full_calendar)
+    with open(APTFILE, "wb") as f:
+        f.write(full_calendar.encode('utf-8'))
+
+#def calendar_to_db(APTFILE):
+#    x = 0
+#    with open(APTFILE, "r+") as f:
+#        lines=f.readlines()
+#    until x > len(lines):
+#    line=lines[x].split(" ")
+#    raw_start[x] = line[0] + line[2]
+
 
 def db_to_calcurse_notes(NOTESDIR, DBFILE):
     """
@@ -75,8 +84,8 @@ def db_to_calcurse_notes(NOTESDIR, DBFILE):
     for item in DB_JSON:
         notehash=item['info']['notes']
         text_body=item['info']['text_body']
-        with open(str(NOTESDIR + notehash), "w+") as f:
-            f.write(text_body)
+        with open(str(NOTESDIR + notehash), "wb") as f:
+            f.write(text_body.encode('utf-8'))
 
 
 def main():

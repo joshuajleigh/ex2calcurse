@@ -11,7 +11,7 @@ help:
 	@echo
 
 $(ENV):
-	virtualenv --python=$(PYTHON) $(ENV) --no-site-packages
+	$(PYTHON) -m venv env
 	$(PIP) install -U pip setuptools
 
 deps: $(ENV) ## builds the virtualenv / dependacies needed to run the script

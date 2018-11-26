@@ -4,4 +4,3 @@ requests
 datetime
 exchangelib
 bpython
-json
